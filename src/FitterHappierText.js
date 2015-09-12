@@ -6,13 +6,15 @@ const svgStyles = {
   width: '100%',
   maxHeight: '100%',
   fill: 'currentColor',
-  overflow: 'visible'
+  overflow: 'visible',
+  boxSizing: 'border-box'
 }
 const textStyles = {
   fontFamily: 'inherit',
   fontSize: '1rem',
   fontWeight: 'inherit',
-  textAnchor: 'middle'
+  textAnchor: 'middle',
+  boxSizing: 'border-box'
 }
 
 class FitterHappierText extends Component {
@@ -27,13 +29,14 @@ class FitterHappierText extends Component {
   }
 
   resize () {
-    let el = React.findDOMNode(this.refs.text)
-    let state = this.state
-    let width = el.offsetWidth || el.getComputedTextLength()
-    let height = el.offsetHeight || 24
-    if (state.width !== width || state.height !== height) {
-      this.setState({ width, height })
-    }
+    const [ width, height ] = (
+      ({ width, height }) => [
+        Math.round(width),
+        Math.round(height)
+      ]
+    )(React.findDOMNode(this.refs.text).getBBox())
+
+    !(this.state.width === width && this.state.height === height) && this.setState({ width, height })
   }
 
   componentDidMount () {
@@ -66,4 +69,3 @@ FitterHappierText.propTypes = {
 }
 
 export default FitterHappierText
-

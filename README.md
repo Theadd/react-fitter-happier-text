@@ -19,7 +19,7 @@ var FitterHappierText = require('react-fitter-happier-text')
 React.render(<FitterHappierText text='Hello World' />, document.querySelector('#hello-world'))
 ```
 
-Note: this component relies on `element.offsetWidth` and only works in client-side contexts.
+Note: this component only works in client-side contexts.
 
 ## Related
 

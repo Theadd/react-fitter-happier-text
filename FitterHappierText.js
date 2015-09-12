@@ -4,6 +4,8 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
+var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
+
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -28,13 +30,15 @@ var svgStyles = {
   width: '100%',
   maxHeight: '100%',
   fill: 'currentColor',
-  overflow: 'visible'
+  overflow: 'visible',
+  boxSizing: 'border-box'
 };
 var textStyles = {
   fontFamily: 'inherit',
   fontSize: '1rem',
   fontWeight: 'inherit',
-  textAnchor: 'middle'
+  textAnchor: 'middle',
+  boxSizing: 'border-box'
 };
 
 var FitterHappierText = (function (_Component) {
@@ -54,13 +58,18 @@ var FitterHappierText = (function (_Component) {
   _createClass(FitterHappierText, [{
     key: 'resize',
     value: function resize() {
-      var el = _react2['default'].findDOMNode(this.refs.text);
-      var state = this.state;
-      var width = el.offsetWidth || el.getComputedTextLength();
-      var height = el.offsetHeight || 24;
-      if (state.width !== width || state.height !== height) {
-        this.setState({ width: width, height: height });
-      }
+      var _ref = (function (_ref3) {
+        var width = _ref3.width;
+        var height = _ref3.height;
+        return [Math.round(width), Math.round(height)];
+      })(_react2['default'].findDOMNode(this.refs.text).getBBox());
+
+      var _ref2 = _slicedToArray(_ref, 2);
+
+      var width = _ref2[0];
+      var height = _ref2[1];
+
+      !(this.state.width === width && this.state.height === height) && this.setState({ width: width, height: height });
     }
   }, {
     key: 'componentDidMount',
